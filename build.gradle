@@ -1,0 +1,50 @@
+apply plugin: 'java'
+apply plugin: 'war'
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+war {
+  archiveFileName = "${archiveBaseName}.war"
+  destinationDirectory = file("./")      // Project root
+}
+
+ext {
+  springVersion = "4.3.20.RELEASE"
+  mySqlConnectorVersion = "8.0.18"
+  junit5MinorVersion = "4"
+  junit5Version = "5.$junit5MinorVersion.2"
+  junit5PlatformLauncherVersion = "1.$junit5MinorVersion.1"
+}
+
+// add src/test/java as a resource directory so config files are found
+sourceSets.test {
+  resources.srcDir "src/test/java"
+}
+
+repositories {
+  jcenter()
+}
+
+dependencies {
+    implementation group: 'org.springframework', name: 'spring-webmvc', version:"$springVersion"
+    
+    // For JSP views
+    implementation group: 'javax.servlet', name: 'javax.servlet-api', version:'3.1.0'
+    implementation group: 'javax.servlet', name: 'jstl', version: '1.2'
+    
+    // MySQL Driver
+    implementation "mysql:mysql-connector-java:$mySqlConnectorVersion"
+    
+    // For Spring Validation:
+    implementation group: 'org.hibernate.validator', name: 'hibernate-validator', version:'6.0.16.Final'
+    testImplementation('org.glassfish:javax.el:3.0.1-b11')
+    
+    // For JUnit Testing
+    implementation group: 'org.springframework', name: 'spring-test', version:"$springVersion"
+    implementation group: 'org.hamcrest', name: 'hamcrest-library', version:'1.3'
+    testImplementation group: 'junit', name: 'junit', version:'4.12'
+    testImplementation group: 'org.junit.vintage', name: 'junit-vintage-engine', version:"$junit5Version"
+    testImplementation group: 'org.junit.platform', name: 'junit-platform-launcher', version:"$junit5PlatformLauncherVersion"
+    testImplementation("org.junit.jupiter:junit-jupiter:$junit5Version")
+}
