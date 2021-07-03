@@ -44,23 +44,45 @@ public class FilmController {
 		return mv;
 	}
 
-	@RequestMapping(path = "createFilm.do", params = {"title", "description", "releaseYear", "language", "rentalDuration", "rentalRate",
-			"length", "replacementCost", "rating", "specialFeatures"})
-			public ModelAndView createFilm(String title, String description, String releaseYear, String language, String rentalDuration,
-				String rentalRate, String length, String replacementCost, String rating, String specialFeatures) {
-		
-		Film film = new Film(title,  description,  releaseYear,  language,  rentalDuration,
-				 rentalRate,  length,  replacementCost, rating, specialFeatures);
+	@RequestMapping(path = "createFilm.do", params = { "title", "description", "releaseYear", "language",
+			"rentalDuration", "rentalRate", "length", "replacementCost", "rating", "specialFeatures" })
+	public ModelAndView createFilm(String title, String description, String releaseYear, String language,
+			String rentalDuration, String rentalRate, String length, String replacementCost, String rating,
+			String specialFeatures) {
+
+		Film film = new Film(title, description, releaseYear, language, rentalDuration, rentalRate, length,
+				replacementCost, rating, specialFeatures);
 		Film newFilm = null;
 		ModelAndView mv = new ModelAndView();
-		try { 
- newFilm = filmDao.createFilm(film);
+		try {
+			newFilm = filmDao.createFilm(film);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 		mv.addObject("newFilm", newFilm); // Film Object f is added to mv and given the reference name, film
 		mv.setViewName("WEB-INF/createFilm.jsp"); // mv (with Film f) is sent to findFilmDetailsFromID.jsp
 		return mv;
+	}
+
+	@RequestMapping(path = "GetFilmFromKeyword.do", params = "keyword", method = RequestMethod.GET) 
+	public ModelAndView getFilmFromKeyword(String keyword) { 
+		Film film = null;
+		List<Film> films = null;
+		ModelAndView mv = new ModelAndView();
+		try { 
+			films = filmDao.findFilmByKeyword(keyword);
+			System.out.println(film);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+
+			mv.addObject("films", films); 
+			mv.setViewName("WEB-INF/filmDetailsFromKeyword.jsp");
+			return mv; 
+
+
+
 	}
 
 }

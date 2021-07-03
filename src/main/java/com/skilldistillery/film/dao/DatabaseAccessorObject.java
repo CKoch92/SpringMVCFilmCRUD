@@ -35,21 +35,16 @@ public class DatabaseAccessorObject implements DatabaseAccessor {
 		PreparedStatement stmt = conn.prepareStatement(sql);
 		stmt.setInt(1, filmId);
 		ResultSet rs = stmt.executeQuery();
-
 		Film film = null;
-
+		
 		while (rs.next()) {
-
 			int id = rs.getInt("id");
 			String title = rs.getString("title");
 			String description = rs.getString("description");
-
 //			WordWrapper is a Maven dependency, keeps the film description neat. 
 //			Commented out because not working with Gradle.
-
 //			String wrappedDescription = WordWrap.from(description).maxWidth(40).insertHyphens(true).wrap();
 			String wrappedDescription = description;
-
 			String releaseYear = rs.getString("release_Year");
 			String language = rs.getString("language.name");
 			String rentalDuration = rs.getString("rental_duration");
@@ -60,10 +55,7 @@ public class DatabaseAccessorObject implements DatabaseAccessor {
 			String rating = rs.getString("film.rating");
 			List<Actor> actors = findActorsByFilmId(id);
 
-//			film = new Film(title, wrappedDescription, rating, releaseYear, language, actors);
-			
 			film = new Film(id, title, wrappedDescription, releaseYear, language, rentalDuration, rentalRate, length, replacementCost, category, rating, actors);
-		
 		}
 		rs.close();
 		stmt.close();
@@ -104,7 +96,7 @@ public class DatabaseAccessorObject implements DatabaseAccessor {
 		return film;
 	}
 
-	public List<Film> findFilmByASearchKeyword(String keyword) throws SQLException {
+	public List<Film> findFilmByKeyword(String keyword) throws SQLException {
 		Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/sdvid?useSSL=false&useLegacyDatetimeCode=false&serverTimezone=US/Mountain", "student",
 				"student");
 
@@ -125,22 +117,23 @@ public class DatabaseAccessorObject implements DatabaseAccessor {
 		Film film = null;
 
 		while (rs.next()) {
-
 			int id = rs.getInt("id");
 			String title = rs.getString("title");
 			String description = rs.getString("description");
-//			WordWrapper is a Maven dependency, keeps the film description neat. 
-//			Commented out because not working with Gradle.
-
-//			String wrappedDescription = WordWrap.from(description).maxWidth(40).insertHyphens(true).wrap();
 			String wrappedDescription = description;
 			String releaseYear = rs.getString("release_Year");
 			String language = rs.getString("language.name");
+			String rentalDuration = rs.getString("rental_duration");
+			String rentalRate = rs.getString("rental_rate");
+			String length = rs.getString("length");
+			String replacementCost = rs.getString("replacement_cost");
+			String category = rs.getString("category.name");
 			String rating = rs.getString("film.rating");
 			List<Actor> actors = findActorsByFilmId(id);
 
-			film = new Film(id, title, wrappedDescription, rating, releaseYear, language, actors);
+			film = new Film(id, title, wrappedDescription, releaseYear, language, rentalDuration, rentalRate, length, replacementCost, category, rating, actors);
 			films.add(film);
+		
 		}
 		rs.close();
 		stmt.close();
@@ -243,18 +236,15 @@ public class DatabaseAccessorObject implements DatabaseAccessor {
 			int id = 0;
 			if (keys.next()) {
 				id = keys.getInt(1);
-
 			}
 			sql = "SELECT * FROM film WHERE film.id = ?";
 			st = conn.prepareStatement(sql);
 			st.setInt(1, id);
 			ResultSet rs = st.executeQuery();
 			if (rs.next()) {
-
 			 newFilm = new Film(rs.getInt("id"), rs.getString("title"), rs.getString("description"), rs.getString("release_year"), rs.getString("language_id"), rs.getString("rental_duration"), 
 					 rs.getString("rental_rate"),rs.getString("length"), rs.getString("replacement_cost"), rs.getString("rating"), rs.getString("special_features"));
 			}
-
 			conn.commit();
 			st.close();
 			conn.close();
@@ -289,5 +279,6 @@ public class DatabaseAccessorObject implements DatabaseAccessor {
 		}
 		return true;
 	}
+
 
 }
