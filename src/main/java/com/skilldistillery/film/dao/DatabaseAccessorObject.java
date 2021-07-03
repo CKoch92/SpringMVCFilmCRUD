@@ -13,10 +13,17 @@ import com.skilldistillery.film.entities.Actor;
 import com.skilldistillery.film.entities.Film;
 
 public class DatabaseAccessorObject implements DatabaseAccessor {
-
+	{
+	try {
+		Class.forName("com.mysql.jdbc.Driver");
+	} catch (ClassNotFoundException e) {
+		e.printStackTrace();
+	}
+}
+	
 	@Override
 	public Film findFilmById(int filmId) throws SQLException {
-		Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/sdvid?useSSL=false", "student",
+		Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/sdvid?useSSL=false&useLegacyDatetimeCode=false&serverTimezone=US/Mountain", "student",
 				"student");
 
 		String sql = "SELECT film.id, film.title, film.description, film.release_year, film.rental_rate, "
@@ -45,10 +52,18 @@ public class DatabaseAccessorObject implements DatabaseAccessor {
 
 			String releaseYear = rs.getString("release_Year");
 			String language = rs.getString("language.name");
+			String rentalDuration = rs.getString("rental_duration");
+			String rentalRate = rs.getString("rental_rate");
+			String length = rs.getString("length");
+			String replacementCost = rs.getString("replacement_cost");
+			String category = rs.getString("category.name");
 			String rating = rs.getString("film.rating");
 			List<Actor> actors = findActorsByFilmId(id);
 
-			film = new Film(title, wrappedDescription, rating, releaseYear, language, actors);
+//			film = new Film(title, wrappedDescription, rating, releaseYear, language, actors);
+			
+			film = new Film(id, title, wrappedDescription, releaseYear, language, rentalDuration, rentalRate, length, replacementCost, category, rating, actors);
+		
 		}
 		rs.close();
 		stmt.close();
@@ -58,7 +73,7 @@ public class DatabaseAccessorObject implements DatabaseAccessor {
 
 	@Override
 	public Film filmAdditionalInfo(int filmId) throws SQLException {
-		Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/sdvid?useSSL=false", "student",
+		Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/sdvid?useSSL=false&useLegacyDatetimeCode=false&serverTimezone=US/Mountain", "student",
 				"student");
 
 		String sql = "SELECT film.id, film.title, film.description, film.release_year, film.rental_rate, "
@@ -90,7 +105,7 @@ public class DatabaseAccessorObject implements DatabaseAccessor {
 	}
 
 	public List<Film> findFilmByASearchKeyword(String keyword) throws SQLException {
-		Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/sdvid?useSSL=false", "student",
+		Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/sdvid?useSSL=false&useLegacyDatetimeCode=false&serverTimezone=US/Mountain", "student",
 				"student");
 
 		String sql = "SELECT film.id, film.title, film.description, film.release_year, film.rental_rate, "
@@ -135,7 +150,7 @@ public class DatabaseAccessorObject implements DatabaseAccessor {
 
 	@Override
 	public Actor findActorById(int actorId) throws SQLException {
-		Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/sdvid?useSSL=false", "student",
+		Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/sdvid?useSSL=false&useLegacyDatetimeCode=false&serverTimezone=US/Mountain", "student",
 				"student");
 		String sql = "SELECT actor.id, actor.first_name, actor.last_name "
 				+ "FROM actor JOIN film_actor ON actor.id = film_actor.actor_id "
@@ -161,7 +176,7 @@ public class DatabaseAccessorObject implements DatabaseAccessor {
 	@Override
 	public List<Actor> findActorsByFilmId(int filmId) throws SQLException {
 
-		Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/sdvid?useSSL=false", "student",
+		Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/sdvid?useSSL=false&useLegacyDatetimeCode=false&serverTimezone=US/Mountain", "student",
 				"student");
 		String sql = "SELECT actor.id, actor.first_name, actor.last_name "
 				+ "FROM actor JOIN film_actor ON actor.id = film_actor.actor_id "
@@ -198,7 +213,7 @@ public class DatabaseAccessorObject implements DatabaseAccessor {
 		Connection conn = null;
 
 		try {
-			conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/sdvid?useSSL=false", "student", "student");
+			conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/sdvid?useSSL=false&useLegacyDatetimeCode=false&serverTimezone=US/Mountain", "student", "student");
 			conn.setAutoCommit(false);
 			PreparedStatement st = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 			st.setString(1, title);
@@ -245,7 +260,7 @@ public class DatabaseAccessorObject implements DatabaseAccessor {
 	public boolean deleteFilm(Film film) {
 		Connection conn = null;
 		try {
-			conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/sdvid?useSSL=false", "student", "student");
+			conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/sdvid?useSSL=false&useLegacyDatetimeCode=false&serverTimezone=US/Mountain", "student", "student");
 			conn.setAutoCommit(false); // START TRANSACTION
 			String sql = "DELETE FROM film WHERE id = ?";
 			PreparedStatement stmt = conn.prepareStatement(sql);

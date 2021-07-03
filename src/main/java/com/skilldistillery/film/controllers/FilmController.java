@@ -33,11 +33,12 @@ public class FilmController {
 		ModelAndView mv = new ModelAndView();
 		try {									//findFilmByID throws exception, so it is wrapped in try/catch
 			f = filmDao.findFilmById(userID);
+			System.out.println(f);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 		mv.addObject("film", f);			//Film Object f is added to mv and given the reference name, film
-		mv.setViewName("WEB-INF/findFilmDetailsFromID.jsp");  //mv (with Film f) is sent to findFilmDetailsFromID.jsp
+		mv.setViewName("WEB-INF/filmDetailsFromID.jsp");  //mv (with Film f) is sent to findFilmDetailsFromID.jsp
 		return mv;
 	}
 }
