@@ -44,20 +44,17 @@ public class FilmController {
 		return mv;
 	}
 
-	@RequestMapping(path = "createFilm.do", params = {"title", "description", "rating", "releaseYear"}, method = RequestMethod.GET) // RequestMapping
-																															// //
-																															// filmDetailsFromID.html
-	public ModelAndView createFilm(String title, String description, String rating, String releaseYear) { // takes in
-																											// params
-		String language = "1";
-		List<Actor> actors = null;
-		Film film = new Film(title, description, rating, releaseYear, language, actors);
+	@RequestMapping(path = "createFilm.do", params = {"title", "description", "releaseYear", "language", "rentalDuration", "rentalRate",
+			"length", "replacementCost", "rating", "specialFeatures"})
+			public ModelAndView createFilm(String title, String description, String releaseYear, String language, String rentalDuration,
+				String rentalRate, String length, String replacementCost, String rating, String specialFeatures) {
+		
+		Film film = new Film(title,  description,  releaseYear,  language,  rentalDuration,
+				 rentalRate,  length,  replacementCost, rating, specialFeatures);
 		Film newFilm = null;
-
 		ModelAndView mv = new ModelAndView();
-		try { // findFilmByID throws exception, so it is wrapped in try/catch
+		try { 
  newFilm = filmDao.createFilm(film);
-//System.out.println(newFilm.toString("short"));
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}

@@ -202,14 +202,19 @@ public class DatabaseAccessorObject implements DatabaseAccessor {
 	}
 
 	public Film createFilm(Film film) throws SQLException {
-
+		
 		String title = film.getTitle();
 		String description = film.getDescription();
-		String rating = film.getRating();
-		String release_year = film.getReleaseYear();
+		String releaseYear = film.getReleaseYear();
 		String language = film.getLanguage();
+		String rentalDuration = film.getRentalDuration();
+		String rentalRate = film.getRentalRate();
+		String length = film.getLength();
+		String replacementCost = film.getReplacementCost();
+		String rating = film.getRating();
+		String specialFeatures = film.getSpecialFeatures();
 
-		String sql = "INSERT INTO film (title, description, rating, release_year, language_id) VALUES (?, ?, ?, ?, ?)";
+		String sql = "INSERT INTO film (title, description, release_year, language_id, rental_duration, rental_rate, length, replacement_cost, rating, special_features) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 		Connection conn = null;
 
 		Film newFilm = null;
@@ -219,12 +224,16 @@ public class DatabaseAccessorObject implements DatabaseAccessor {
 			PreparedStatement st = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 			st.setString(1, title);
 			st.setString(2, description);
-			st.setString(3, rating);
-			st.setString(4, release_year);
-			st.setString(5, language);
+			st.setString(3, releaseYear);
+			st.setString(4, language);
+			st.setString(5, rentalDuration);
+			st.setString(6, rentalRate);
+			st.setString(7, length);
+			st.setString(8, replacementCost);
+			st.setString(9, rating);
+			st.setString(10, specialFeatures);
 
 			int uc = st.executeUpdate();
-//			System.out.println(uc + " Film record created.");
 			if (uc != 1) {
 				System.err.println("Ruh Roh!");
 				conn.rollback();
@@ -234,16 +243,16 @@ public class DatabaseAccessorObject implements DatabaseAccessor {
 			int id = 0;
 			if (keys.next()) {
 				id = keys.getInt(1);
-//				System.out.println("New film ID: " + id);
+
 			}
 			sql = "SELECT * FROM film WHERE film.id = ?";
 			st = conn.prepareStatement(sql);
 			st.setInt(1, id);
 			ResultSet rs = st.executeQuery();
 			if (rs.next()) {
-//				System.out.println(rs.getInt("id") + " " + rs.getString("title") + " " + rs.getString("description")
-//						+ " " + rs.getString("rating") + " " + rs.getString("release_year"));
-			 newFilm = new Film(rs.getInt("id"),rs.getString("title"), rs.getString("description"), rs.getString("rating"), rs.getString("release_year"));
+
+			 newFilm = new Film(rs.getInt("id"), rs.getString("title"), rs.getString("description"), rs.getString("release_year"), rs.getString("language_id"), rs.getString("rental_duration"), 
+					 rs.getString("rental_rate"),rs.getString("length"), rs.getString("replacement_cost"), rs.getString("rating"), rs.getString("special_features"));
 			}
 
 			conn.commit();
