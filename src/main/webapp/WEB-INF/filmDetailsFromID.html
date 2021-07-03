@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Films</title>
+</head>
+<body>
+  <h3>Search For Films by Film ID</h3> 
+  <form action="GetFilmFromID.do" method="GET">
+    Enter Film ID:
+    <input type="text" name="id"/> 
+    <input type="submit" value="Get Film Details" />
+  </form> <!-- Form takes in String data under the name "id" and heads to controller to look for "GetFilmFromID.do" -->
+</body>
+</html>
