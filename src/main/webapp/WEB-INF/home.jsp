@@ -8,6 +8,7 @@
 </head>
 <body>
 
+<link rel="stylesheet" href="css/ourStyles.css">
 
 <h1>Film Site</h1>
 
