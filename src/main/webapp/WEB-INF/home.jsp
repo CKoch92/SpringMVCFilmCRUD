@@ -8,12 +8,13 @@
 </head>
 <body>
 
-<link rel="stylesheet" href="css/ourStyles.css">
+<!-- No Stylesheet Yet
+<link rel="stylesheet" href="css/ourStyles.css">  -->
 
 <h1>Film Site</h1>
 
 <a href="filmDetailsFromID.html">Search for Films by Film ID</a><br/>	<!--Creates link that redirects to filmDetailsFromID.html  -->
-
+<a href="createFilm.html">Create new film</a><br/>
 
 </body>
 </html>

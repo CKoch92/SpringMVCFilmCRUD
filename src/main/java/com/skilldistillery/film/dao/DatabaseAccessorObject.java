@@ -212,6 +212,7 @@ public class DatabaseAccessorObject implements DatabaseAccessor {
 		String sql = "INSERT INTO film (title, description, rating, release_year, language_id) VALUES (?, ?, ?, ?, ?)";
 		Connection conn = null;
 
+		Film newFilm = null;
 		try {
 			conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/sdvid?useSSL=false&useLegacyDatetimeCode=false&serverTimezone=US/Mountain", "student", "student");
 			conn.setAutoCommit(false);
@@ -222,30 +223,29 @@ public class DatabaseAccessorObject implements DatabaseAccessor {
 			st.setString(4, release_year);
 			st.setString(5, language);
 
-			System.out.println(st);
-
 			int uc = st.executeUpdate();
-			System.out.println(uc + " Film record created.");
+//			System.out.println(uc + " Film record created.");
 			if (uc != 1) {
 				System.err.println("Ruh Roh!");
 				conn.rollback();
 				return null;
 			}
 			ResultSet keys = st.getGeneratedKeys();
-			int filmID = 0;
+			int id = 0;
 			if (keys.next()) {
-				filmID = keys.getInt(1);
-				System.out.println("New film ID: " + filmID);
+				id = keys.getInt(1);
+//				System.out.println("New film ID: " + id);
 			}
 			sql = "SELECT * FROM film WHERE film.id = ?";
 			st = conn.prepareStatement(sql);
-			st.setInt(1, filmID);
+			st.setInt(1, id);
 			ResultSet rs = st.executeQuery();
 			if (rs.next()) {
-				System.out.println(rs.getInt("id") + " " + rs.getString("title") + " " + rs.getString("description")
-						+ " " + rs.getString("rating") + " " + rs.getString("release_year") + " "
-						+ rs.getString("language_id"));
+//				System.out.println(rs.getInt("id") + " " + rs.getString("title") + " " + rs.getString("description")
+//						+ " " + rs.getString("rating") + " " + rs.getString("release_year"));
+			 newFilm = new Film(rs.getInt("id"),rs.getString("title"), rs.getString("description"), rs.getString("rating"), rs.getString("release_year"));
 			}
+
 			conn.commit();
 			st.close();
 			conn.close();
@@ -254,7 +254,7 @@ public class DatabaseAccessorObject implements DatabaseAccessor {
 			e.printStackTrace();
 			return null;
 		}
-		return film;
+		return newFilm;
 	}
 
 	public boolean deleteFilm(Film film) {

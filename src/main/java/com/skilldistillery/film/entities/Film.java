@@ -17,7 +17,13 @@ public class Film {
 	private String rating;
 	private List<Actor> actors;
 
-	
+	public Film(int id, String title, String description, String releaseYear,  String rating) {
+		this.id = id;
+		this.title = title;
+		this.description = description;
+		this.releaseYear = releaseYear;
+		this.rating = rating;
+	}
 	
 	
 	public Film(int id, String title, String description, String releaseYear, String language, String rentalDuration,
