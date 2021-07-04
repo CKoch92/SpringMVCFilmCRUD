@@ -9,6 +9,10 @@
 <title>Film</title>
 </head>
 <body>
+  <form action="goHome.do" method="GET">
+    <input type="submit" value="Return Home" />
+  </form> 
+	<h3>Film Info Updated!</h3>
   <c:choose>
     <c:when test="${! empty film}">  <!-- if object "film" added to mv, from class FilmController, is not empty, print film details  -->
       <ul>

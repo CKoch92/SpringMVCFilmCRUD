@@ -9,9 +9,13 @@
 <title>Film</title>
 </head>
 <body>
+  <form action="goHome.do" method="GET">
+    <input type="submit" value="Return Home" />
+  </form> 
 	<h3>Update Film Info</h3>
 	<c:choose>
 		<c:when test="${! empty film}">
+		
 			<form action="updateFilm.do" method="GET">
 		<b>Title</b> <br />
 		<input type="text" name="title" value="${film.title}" > <br />

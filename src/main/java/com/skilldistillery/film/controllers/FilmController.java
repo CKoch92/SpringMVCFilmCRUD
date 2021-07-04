@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.skilldistillery.film.dao.DatabaseAccessorObject;
-import com.skilldistillery.film.entities.Actor;
 import com.skilldistillery.film.entities.Film;
 
 @Controller
@@ -64,54 +63,62 @@ public class FilmController {
 		return mv;
 	}
 
-	@RequestMapping(path = "GetFilmFromKeyword.do", params = "keyword", method = RequestMethod.GET) 
-	public ModelAndView getFilmFromKeyword(String keyword) { 
+	@RequestMapping(path = "GetFilmFromKeyword.do", params = "keyword", method = RequestMethod.GET)
+	public ModelAndView getFilmFromKeyword(String keyword) {
 		Film film = null;
 		List<Film> films = null;
 		ModelAndView mv = new ModelAndView();
-		try { 
+		try {
 			films = filmDao.findFilmByKeyword(keyword);
 			System.out.println(film);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-			mv.addObject("films", films); 
-			mv.setViewName("WEB-INF/filmDetailsFromKeyword.jsp");
-			return mv; 
+		mv.addObject("films", films);
+		mv.setViewName("WEB-INF/filmDetailsFromKeyword.jsp");
+		return mv;
 	}
-	
-	@RequestMapping(path = "updateFilm.do", params = {"title", "description", "releaseYear", "language",
-			"rentalDuration", "rentalRate", "length", "replacementCost", "rating", "specialFeatures", "filmID"}, method = RequestMethod.GET) 
+
+	@RequestMapping(path = "updateFilm.do", params = { "title", "description", "releaseYear", "language",
+			"rentalDuration", "rentalRate", "length", "replacementCost", "rating", "specialFeatures",
+			"filmID" }, method = RequestMethod.GET)
 	public ModelAndView updateFilmByID(String title, String description, String releaseYear, String language,
 			String rentalDuration, String rentalRate, String length, String replacementCost, String rating,
-			String specialFeatures, int filmID) { 
+			String specialFeatures, int filmID) {
 		Film film = new Film(filmID, title, description, releaseYear, language, rentalDuration, rentalRate, length,
 				replacementCost, rating, specialFeatures);
 
 		ModelAndView mv = new ModelAndView();
-		try { 
+		try {
 			film = filmDao.updateFilm(film);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-			mv.addObject("film", film); 
-			mv.setViewName("WEB-INF/updatedFilm.jsp");
-			return mv; 
+		mv.addObject("film", film);
+		mv.setViewName("WEB-INF/updatedFilm.jsp");
+		return mv;
 	}
-	
-	@RequestMapping(path = "editFilm.do", params = {"filmID"}, method = RequestMethod.GET) 
-	public ModelAndView editFilm(int filmID) { 
+
+	@RequestMapping(path = "editFilm.do", params = { "filmID" }, method = RequestMethod.GET)
+	public ModelAndView editFilm(int filmID) {
 		Film film = null;
 
 		ModelAndView mv = new ModelAndView();
-		try { 
+		try {
 			film = filmDao.findFilmById(filmID);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-			mv.addObject("film", film); 
-			mv.setViewName("WEB-INF/updateFilm.jsp");
-			return mv; 
+		mv.addObject("film", film);
+		mv.setViewName("WEB-INF/updateFilm.jsp");
+		return mv;
+	}
+
+	@RequestMapping(path = "goHome.do", params = {}, method = RequestMethod.GET)
+	public ModelAndView goHome() {
+		ModelAndView mv = new ModelAndView();
+		mv.setViewName("WEB-INF/home.jsp");
+		return mv;
 	}
 
 }

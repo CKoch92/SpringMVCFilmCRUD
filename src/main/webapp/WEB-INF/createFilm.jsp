@@ -9,6 +9,9 @@
 <title>Film</title>
 </head>
 <body>
+  <form action="goHome.do" method="GET">
+    <input type="submit" value="Return Home" />
+  </form> 
 	<h3>1 Film record created.</h3>
 	<c:choose>
 		<c:when test="${! empty newFilm}">
