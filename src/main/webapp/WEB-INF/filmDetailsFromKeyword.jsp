@@ -18,13 +18,13 @@
 			<!-- if object "film" added to mv, from class FilmController, is not empty, print film details  -->
 			<c:forEach var="film" items="${films}">
 				<form action="editFilm.do" method="GET">
-					<ul>
-						<li>Film ID: ${film.id}</li>
-						<li>Title: ${film.title}</li>
-						<!--         Add Link to the film details page -->
-						<li><input type="hidden" name="filmID" value="${film.id}"></li>
-						<li><input type="submit" value="Edit" /></li>
-					</ul>
+						<div>
+						ID: ${film.id}
+						Title: ${film.title}
+						<input type="hidden" name="filmID" value="${film.id}">
+						<input type="submit" name=edit value="Edit"/> 
+						<input type="submit" name=delete value="Delete"/>
+						</div>
 				</form>
 			</c:forEach>
 		</c:when>

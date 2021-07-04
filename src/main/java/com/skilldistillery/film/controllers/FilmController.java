@@ -99,7 +99,7 @@ public class FilmController {
 		return mv;
 	}
 
-	@RequestMapping(path = "editFilm.do", params = { "filmID" }, method = RequestMethod.GET)
+	@RequestMapping(path = "editFilm.do", params = { "filmID"}, method = RequestMethod.GET)
 	public ModelAndView editFilm(int filmID) {
 		Film film = null;
 
