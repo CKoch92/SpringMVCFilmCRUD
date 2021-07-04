@@ -21,9 +21,8 @@
         <li>Rental Rate: ${film.rentalRate}</li>
         <li>Length: ${film.length}</li>
         <li>Replacement Cost: ${film.replacementCost}</li>
-        <li>Category: ${film.category}</li>
         <li>Rating: ${film.rating}</li>
-        <li>Actors: ${film.actors}</li>
+        <li>Special Features: ${film.specialFeatures}</li>
       </ul>      
     </c:when>
     <c:otherwise>

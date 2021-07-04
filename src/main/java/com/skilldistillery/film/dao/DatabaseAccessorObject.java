@@ -41,11 +41,8 @@ public class DatabaseAccessorObject implements DatabaseAccessor {
 			int id = rs.getInt("id");
 			String title = rs.getString("title");
 			String description = rs.getString("description");
-//			WordWrapper is a Maven dependency, keeps the film description neat. 
-//			Commented out because not working with Gradle.
-//			String wrappedDescription = WordWrap.from(description).maxWidth(40).insertHyphens(true).wrap();
 			String wrappedDescription = description;
-			String releaseYear = rs.getString("release_Year");
+			String releaseYear = rs.getString("release_year");
 			String language = rs.getString("language.name");
 			String rentalDuration = rs.getString("rental_duration");
 			String rentalRate = rs.getString("rental_rate");
@@ -245,6 +242,7 @@ public class DatabaseAccessorObject implements DatabaseAccessor {
 			 newFilm = new Film(rs.getInt("id"), rs.getString("title"), rs.getString("description"), rs.getString("release_year"), rs.getString("language_id"), rs.getString("rental_duration"), 
 					 rs.getString("rental_rate"),rs.getString("length"), rs.getString("replacement_cost"), rs.getString("rating"), rs.getString("special_features"));
 			}
+			rs.close();
 			conn.commit();
 			st.close();
 			conn.close();
@@ -254,6 +252,43 @@ public class DatabaseAccessorObject implements DatabaseAccessor {
 			return null;
 		}
 		return newFilm;
+	}
+	
+	public Film updateFilm(Film film) throws SQLException {
+		Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/sdvid?useSSL=false&useLegacyDatetimeCode=false&serverTimezone=US/Mountain", "student", "student");
+		try {
+			conn.setAutoCommit(false);
+			String sql = "UPDATE film SET title=?, description=?, release_year=?, language_id=?, rental_duration=?, rental_rate=?, length=?, replacement_cost=?, "
+					+ "rating=?, special_features=? WHERE id=?";
+			
+			PreparedStatement st = conn.prepareStatement(sql);
+			st.setString(1, film.getTitle());
+			st.setString(2, film.getDescription());
+			st.setString(3, film.getReleaseYear());
+			st.setString(4, film.getLanguage());
+			st.setString(5, film.getRentalDuration());
+			st.setString(6, film.getRentalRate());
+			st.setString(7, film.getLength());
+			st.setString(8, film.getReplacementCost());
+			st.setString(9, film.getRating());
+			st.setString(10, film.getSpecialFeatures());
+			st.setInt(11, film.getId());
+
+			int uc = st.executeUpdate();
+			if (uc != 1) {
+				System.err.println("Ruh Roh!");
+				conn.rollback();
+				return null;
+			}
+			conn.commit();
+			st.close();
+			conn.close();
+		} catch (SQLException e) {
+			conn.rollback();
+			e.printStackTrace();
+			return null;
+		}
+		return film;
 	}
 
 	public boolean deleteFilm(Film film) {

@@ -298,15 +298,18 @@ public class Film {
 		} else if (type.equals("short")) {
 			return ("| ID: " + id + " Title: " + title);
 
-		} else {
+		} else if (type.equals("full")) {
 			return (("| Title: " + title + "\n| Description: \n" + description.replaceAll("(?m)^", "| ")
 					+ "\n| Release Year: " + releaseYear + "\n| Rating: " + rating + "\n| Language: " + language
 					+ "\n| Actors:" + actors.toString().replaceAll("\\[|\\]|,|-", "")));
 		}
+		else {
+			return "Film [id=" + id + ", title=" + title + ", description=" + description + ", releaseYear=" + releaseYear
+					+ ", language=" + language + ", rentalDuration=" + rentalDuration + ", rentalRate=" + rentalRate
+					+ ", length=" + length + ", replacementCost=" + replacementCost + ", rating=" + rating
+					+ ", specialFeatures=" + specialFeatures + "]";
+		}
 
 	}
-
-
-
 
 }

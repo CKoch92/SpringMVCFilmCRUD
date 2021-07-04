@@ -9,20 +9,27 @@
 <title>Results</title>
 </head>
 <body>
-<h3>Results</h3>
-      <c:choose>
-    <c:when test="${! empty films}">  <!-- if object "film" added to mv, from class FilmController, is not empty, print film details  -->
-        <c:forEach var="film" items="${films}">
-      <ul>
-        <li>Film ID: ${film.id}</li>
-        <li>Title: ${film.title}</li>
-      </ul>
-    </c:forEach>
-    </c:when>
-    <c:otherwise>
-      <p>No film found</p> <!-- Otherwise, print "No film found" -->
-    </c:otherwise>
-  </c:choose>
+	<h3>Results</h3>
+	<c:choose>
+		<c:when test="${! empty films}">
+			<!-- if object "film" added to mv, from class FilmController, is not empty, print film details  -->
+			<c:forEach var="film" items="${films}">
+				<form action="editFilm.do" method="GET">
+					<ul>
+						<li>Film ID: ${film.id}</li>
+						<li>Title: ${film.title}</li>
+						<!--         Add Link to the film details page -->
+						<li><input type="hidden" name="filmID" value="${film.id}"></li>
+						<li><input type="submit" value="Edit" /></li>
+					</ul>
+				</form>
+			</c:forEach>
+		</c:when>
+		<c:otherwise>
+			<p>No films found</p>
+			<!-- Otherwise, print "No film found" -->
+		</c:otherwise>
+	</c:choose>
 
 </body>
 </html>

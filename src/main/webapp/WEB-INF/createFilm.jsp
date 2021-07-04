@@ -25,7 +25,7 @@
 				<li>Replacement Cost: ${newFilm.replacementCost}</li>
 				<li>Release Year: ${newFilm.rating}</li>
 				<li>Special Features: ${newFilm.specialFeatures}</li>
-			</ul>
+			</ul>			
 		</c:when>
 		<c:otherwise>
 			<p>No film found</p>

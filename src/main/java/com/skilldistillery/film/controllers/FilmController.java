@@ -75,14 +75,43 @@ public class FilmController {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		
-
 			mv.addObject("films", films); 
 			mv.setViewName("WEB-INF/filmDetailsFromKeyword.jsp");
 			return mv; 
+	}
+	
+	@RequestMapping(path = "updateFilm.do", params = {"title", "description", "releaseYear", "language",
+			"rentalDuration", "rentalRate", "length", "replacementCost", "rating", "specialFeatures", "filmID"}, method = RequestMethod.GET) 
+	public ModelAndView updateFilmByID(String title, String description, String releaseYear, String language,
+			String rentalDuration, String rentalRate, String length, String replacementCost, String rating,
+			String specialFeatures, int filmID) { 
+		Film film = new Film(filmID, title, description, releaseYear, language, rentalDuration, rentalRate, length,
+				replacementCost, rating, specialFeatures);
 
+		ModelAndView mv = new ModelAndView();
+		try { 
+			film = filmDao.updateFilm(film);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+			mv.addObject("film", film); 
+			mv.setViewName("WEB-INF/updatedFilm.jsp");
+			return mv; 
+	}
+	
+	@RequestMapping(path = "editFilm.do", params = {"filmID"}, method = RequestMethod.GET) 
+	public ModelAndView editFilm(int filmID) { 
+		Film film = null;
 
-
+		ModelAndView mv = new ModelAndView();
+		try { 
+			film = filmDao.findFilmById(filmID);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+			mv.addObject("film", film); 
+			mv.setViewName("WEB-INF/updateFilm.jsp");
+			return mv; 
 	}
 
 }
