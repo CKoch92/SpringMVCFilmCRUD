@@ -41,4 +41,28 @@ public class FilmController {
 		mv.setViewName("WEB-INF/filmDetailsFromID.jsp");  //mv (with Film f) is sent to findFilmDetailsFromID.jsp
 		return mv;
 	}
+	
+	
+	@RequestMapping(path = "DeleteFilm.do", params = "id", method = RequestMethod.GET)
+	public ModelAndView deleteFilm(String id) {
+		ModelAndView mv = new ModelAndView();
+		Film f = null;
+		int userID = Integer.parseInt(id); 
+		try {									
+			f = filmDao.findFilmById(userID);
+			System.out.println(f);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		filmDao.deleteFilm(f);
+		try {									
+			f = filmDao.findFilmById(userID);
+			System.out.println(f);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		mv.addObject("film", f);			
+		mv.setViewName("WEB-INF/deleteFilm.jsp");
+		return mv;
+	}
 }

@@ -14,6 +14,7 @@
 
 <a href="filmDetailsFromID.html">Search for Films by Film ID</a><br/>	<!--Creates link that redirects to filmDetailsFromID.html  -->
 
+<a href="deleteFilm.html">Delete A Film</a><br/>	<!--Creates link that redirects to filmDetailsFromID.html  -->
 
 </body>
 </html>

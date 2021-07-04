@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Films</title>
+</head>
+<body>
+  <h3>Delete A Film</h3> 
+  <form action="DeleteFilm.do" method="GET">
+    Enter the Film ID of the Film You Wish to Delete:
+    <input type="text" name="id"/> 
+    <input type="submit" value="Delete Film" />
+  </form> <!-- Form takes in String data under the name "id" and heads to controller to look for "GetFilmFromID.do" -->
+</body>
+</html>

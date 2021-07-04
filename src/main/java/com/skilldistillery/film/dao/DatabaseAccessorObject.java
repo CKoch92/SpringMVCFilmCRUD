@@ -25,7 +25,7 @@ public class DatabaseAccessorObject implements DatabaseAccessor {
 	public Film findFilmById(int filmId) throws SQLException {
 		Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/sdvid?useSSL=false&useLegacyDatetimeCode=false&serverTimezone=US/Mountain", "student",
 				"student");
-
+		
 		String sql = "SELECT film.id, film.title, film.description, film.release_year, film.rental_rate, "
 				+ "film.rental_duration, film.length, film.replacement_cost, category.name, language.name,"
 				+ "film.rating\n" + "FROM film  JOIN film_category \n" + "ON film.id = film_category.film_id\n"
@@ -51,18 +51,18 @@ public class DatabaseAccessorObject implements DatabaseAccessor {
 			String wrappedDescription = description;
 
 			String releaseYear = rs.getString("release_Year");
-			String language = rs.getString("language.name");
+//			String language = rs.getString("language.name");
 			String rentalDuration = rs.getString("rental_duration");
 			String rentalRate = rs.getString("rental_rate");
 			String length = rs.getString("length");
 			String replacementCost = rs.getString("replacement_cost");
-			String category = rs.getString("category.name");
+//			String category = rs.getString("category.name");
 			String rating = rs.getString("film.rating");
 			List<Actor> actors = findActorsByFilmId(id);
 
 //			film = new Film(title, wrappedDescription, rating, releaseYear, language, actors);
 			
-			film = new Film(id, title, wrappedDescription, releaseYear, language, rentalDuration, rentalRate, length, replacementCost, category, rating, actors);
+			film = new Film(id, title, wrappedDescription, releaseYear, null, rentalDuration, rentalRate, length, replacementCost, null, rating, actors);
 		
 		}
 		rs.close();
