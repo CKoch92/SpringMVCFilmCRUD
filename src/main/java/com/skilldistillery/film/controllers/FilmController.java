@@ -99,11 +99,12 @@ public class FilmController {
 		return mv;
 	}
 
-	@RequestMapping(path = "editFilm.do", params = { "filmID"}, method = RequestMethod.GET)
-	public ModelAndView editFilm(int filmID) {
+	@RequestMapping(path = "editFilm.do", params = {"filmID", "action"}, method = RequestMethod.GET)
+	public ModelAndView editFilm(int filmID, String action) {
 		Film film = null;
-
 		ModelAndView mv = new ModelAndView();
+		
+		if (action.equals("Edit")) {
 		try {
 			film = filmDao.findFilmById(filmID);
 		} catch (SQLException e) {
@@ -111,6 +112,12 @@ public class FilmController {
 		}
 		mv.addObject("film", film);
 		mv.setViewName("WEB-INF/updateFilm.jsp");
+		}
+		else if (action.equals("Delete") ) {
+			
+			// Handle Film Delete
+			
+		}
 		return mv;
 	}
 

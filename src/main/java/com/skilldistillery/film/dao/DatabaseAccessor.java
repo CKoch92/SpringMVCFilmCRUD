@@ -21,5 +21,9 @@ public interface DatabaseAccessor {
 	
 	public Film updateFilm(Film film) throws SQLException;
 
+	List<String> findCategoryByFilmId(int filmId) throws SQLException;
+
+	boolean deleteFilm(Film film);
+
 
 }

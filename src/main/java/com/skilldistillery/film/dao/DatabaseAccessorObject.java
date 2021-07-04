@@ -7,6 +7,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import com.skilldistillery.film.entities.Actor;
@@ -25,12 +26,14 @@ public class DatabaseAccessorObject implements DatabaseAccessor {
 	public Film findFilmById(int filmId) throws SQLException {
 		Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/sdvid?useSSL=false&useLegacyDatetimeCode=false&serverTimezone=US/Mountain", "student",
 				"student");
-
-		String sql = "SELECT film.id, film.title, film.description, film.release_year, film.rental_rate, "
-				+ "film.rental_duration, film.length, film.replacement_cost, category.name, language.name,"
-				+ "film.rating\n" + "FROM film  JOIN film_category \n" + "ON film.id = film_category.film_id\n"
-				+ "JOIN category \n" + "ON film_category.category_id = category.id\n" + "JOIN language \n"
-				+ "ON film.language_id = language.id \n" + "WHERE film.id = ?";
+// NOT WORKING Can't retreive new created film data:
+//		String sql = "SELECT film.id, film.title, film.description, film.release_year, film.rental_rate, "
+//				+ "film.rental_duration, film.length, film.replacement_cost, category.name, language.name,"
+//				+ "film.rating\n" + "FROM film  JOIN film_category \n" + "ON film.id = film_category.film_id\n"
+//				+ "JOIN category \n" + "ON film_category.category_id = category.id\n" + "JOIN language \n"
+//				+ "ON film.language_id = language.id \n" + "WHERE film.id = ?";
+		
+		String sql = "SELECT film.id, film.title, film.description, film.release_year, film.rental_rate, film.rental_duration, film.length, film.replacement_cost, film.language_id, film.rating FROM film WHERE film.id = ?";
 
 		PreparedStatement stmt = conn.prepareStatement(sql);
 		stmt.setInt(1, filmId);
@@ -43,12 +46,17 @@ public class DatabaseAccessorObject implements DatabaseAccessor {
 			String description = rs.getString("description");
 			String wrappedDescription = description;
 			String releaseYear = rs.getString("release_year");
-			String language = rs.getString("language.name");
+			String language = rs.getString("film.language_id");
 			String rentalDuration = rs.getString("rental_duration");
 			String rentalRate = rs.getString("rental_rate");
 			String length = rs.getString("length");
 			String replacementCost = rs.getString("replacement_cost");
-			String category = rs.getString("category.name");
+			
+			List<String> category = findCategoryByFilmId(id);
+			
+			
+			
+			
 			String rating = rs.getString("film.rating");
 			List<Actor> actors = findActorsByFilmId(id);
 
@@ -83,8 +91,7 @@ public class DatabaseAccessorObject implements DatabaseAccessor {
 			String rentalRate = rs.getString("rental_rate");
 			String length = rs.getString("length");
 			String replacementCost = rs.getString("replacement_cost");
-			String category = rs.getString("category.name");
-
+			List<String> category = findCategoryByFilmId(filmId);
 			film = new Film(rentalDuration, rentalRate, length, replacementCost, category);
 		}
 		rs.close();
@@ -96,12 +103,15 @@ public class DatabaseAccessorObject implements DatabaseAccessor {
 	public List<Film> findFilmByKeyword(String keyword) throws SQLException {
 		Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/sdvid?useSSL=false&useLegacyDatetimeCode=false&serverTimezone=US/Mountain", "student",
 				"student");
-
-		String sql = "SELECT film.id, film.title, film.description, film.release_year, film.rental_rate, "
-				+ "film.rental_duration, film.length, film.replacement_cost, category.name, language.name,"
-				+ "film.rating\n" + "FROM film  JOIN film_category \n" + "ON film.id = film_category.film_id\n"
-				+ "JOIN category \n" + "ON film_category.category_id = category.id\n" + "JOIN language \n"
-				+ "ON film.language_id = language.id \n" + "WHERE film.title LIKE ? OR film.description LIKE ?";
+//
+//		NOT WORKING:
+//		String sql = "SELECT film.id, film.title, film.description, film.release_year, film.rental_rate, "
+//				+ "film.rental_duration, film.length, film.replacement_cost, category.name, language.name,"
+//				+ "film.rating\n" + "FROM film  JOIN film_category \n" + "ON film.id = film_category.film_id\n"
+//				+ "JOIN category \n" + "ON film_category.category_id = category.id\n" + "JOIN language \n"
+//				+ "ON film.language_id = language.id \n" + "WHERE film.title LIKE ? OR film.description LIKE ?";
+		
+		String sql = "SELECT film.id, film.title, film.description, film.release_year, film.rental_rate, film.rental_duration, film.length, film.replacement_cost, film.language_id, film.rating FROM film WHERE film.title LIKE ? OR film.description LIKE ?";
 
 		PreparedStatement stmt = conn.prepareStatement(sql);
 
@@ -119,12 +129,12 @@ public class DatabaseAccessorObject implements DatabaseAccessor {
 			String description = rs.getString("description");
 			String wrappedDescription = description;
 			String releaseYear = rs.getString("release_Year");
-			String language = rs.getString("language.name");
+			String language = rs.getString("film.language_id");
 			String rentalDuration = rs.getString("rental_duration");
 			String rentalRate = rs.getString("rental_rate");
 			String length = rs.getString("length");
 			String replacementCost = rs.getString("replacement_cost");
-			String category = rs.getString("category.name");
+			List<String> category = findCategoryByFilmId(id);
 			String rating = rs.getString("film.rating");
 			List<Actor> actors = findActorsByFilmId(id);
 
@@ -162,6 +172,30 @@ public class DatabaseAccessorObject implements DatabaseAccessor {
 		conn.close();
 		return actor;
 	}
+	@Override
+	public List<String> findCategoryByFilmId(int filmId) throws SQLException {
+
+		Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/sdvid?useSSL=false&useLegacyDatetimeCode=false&serverTimezone=US/Mountain", "student",
+				"student");
+		
+		String sql = "SELECT film.id, film.title, category.name FROM film JOIN film_category ON film.id = film_category.film_id "
+				+ "JOIN category ON film_category.category_id = category.id WHERE film.id = ?";
+
+		PreparedStatement stmt = conn.prepareStatement(sql);
+		stmt.setInt(1, filmId);
+		ResultSet rs = stmt.executeQuery();
+
+		List<String> categories = new ArrayList<>(Arrays.asList("",""));
+
+		while (rs.next()) {
+			String category = rs.getString("category.name");
+			categories.add(category);
+		}
+		rs.close();
+		stmt.close();
+		conn.close();
+		return categories;
+	}
 
 	@Override
 	public List<Actor> findActorsByFilmId(int filmId) throws SQLException {
@@ -190,9 +224,10 @@ public class DatabaseAccessorObject implements DatabaseAccessor {
 		conn.close();
 		return actors;
 	}
-
+	@Override
 	public Film createFilm(Film film) throws SQLException {
 		
+		Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/sdvid?useSSL=false&useLegacyDatetimeCode=false&serverTimezone=US/Mountain", "student", "student");
 		String title = film.getTitle();
 		String description = film.getDescription();
 		String releaseYear = film.getReleaseYear();
@@ -204,12 +239,13 @@ public class DatabaseAccessorObject implements DatabaseAccessor {
 		String rating = film.getRating();
 		String specialFeatures = film.getSpecialFeatures();
 
-		String sql = "INSERT INTO film (title, description, release_year, language_id, rental_duration, rental_rate, length, replacement_cost, rating, special_features) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-		Connection conn = null;
+		String sql = "INSERT INTO film (title, description, release_year, language_id, rental_duration,"
+				+ " rental_rate, length, replacement_cost, rating, special_features) "
+				+ "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+//		Connection conn = null;
 
 		Film newFilm = null;
 		try {
-			conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/sdvid?useSSL=false&useLegacyDatetimeCode=false&serverTimezone=US/Mountain", "student", "student");
 			conn.setAutoCommit(false);
 			PreparedStatement st = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 			st.setString(1, title);
@@ -222,6 +258,8 @@ public class DatabaseAccessorObject implements DatabaseAccessor {
 			st.setString(8, replacementCost);
 			st.setString(9, rating);
 			st.setString(10, specialFeatures);
+			System.out.println(st);
+
 
 			int uc = st.executeUpdate();
 			if (uc != 1) {
@@ -253,7 +291,7 @@ public class DatabaseAccessorObject implements DatabaseAccessor {
 		}
 		return newFilm;
 	}
-	
+	@Override
 	public Film updateFilm(Film film) throws SQLException {
 		Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/sdvid?useSSL=false&useLegacyDatetimeCode=false&serverTimezone=US/Mountain", "student", "student");
 		try {
@@ -290,7 +328,8 @@ public class DatabaseAccessorObject implements DatabaseAccessor {
 		}
 		return film;
 	}
-
+	
+	@Override
 	public boolean deleteFilm(Film film) {
 		Connection conn = null;
 		try {

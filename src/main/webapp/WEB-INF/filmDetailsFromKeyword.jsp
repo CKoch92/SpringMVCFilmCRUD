@@ -22,8 +22,8 @@
 						ID: ${film.id}
 						Title: ${film.title}
 						<input type="hidden" name="filmID" value="${film.id}">
-						<input type="submit" name=edit value="Edit"/> 
-						<input type="submit" name=delete value="Delete"/>
+						<input type="submit" name=action value="Edit"/> 
+						<input type="submit" name=action value="Delete"/>
 						</div>
 				</form>
 			</c:forEach>
