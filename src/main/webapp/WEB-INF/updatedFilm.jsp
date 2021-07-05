@@ -12,9 +12,9 @@
   <form action="goHome.do" method="GET">
     <input type="submit" value="Return Home" />
   </form> 
-	<h3>Film Info Updated!</h3>
   <c:choose>
     <c:when test="${! empty film}">  <!-- if object "film" added to mv, from class FilmController, is not empty, print film details  -->
+    	<h3>Film Info Updated!</h3>
       <ul>
         <li>Film ID: ${film.id}</li>
         <li>Title: ${film.title}</li>
@@ -30,7 +30,7 @@
       </ul>      
     </c:when>
     <c:otherwise>
-      <p>No film found</p> <!-- Otherwise, print "No film found" -->
+      <p>Update failed, incorrect field entry. Try again.</p> <!-- Otherwise, print "No film found" -->
     </c:otherwise>
   </c:choose>
 </body>

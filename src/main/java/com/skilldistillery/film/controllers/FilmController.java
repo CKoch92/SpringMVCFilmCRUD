@@ -114,9 +114,26 @@ public class FilmController {
 		mv.setViewName("WEB-INF/updateFilm.jsp");
 		}
 		else if (action.equals("Delete") ) {
+// -----------------
+			try {									
+				film = filmDao.findFilmById(filmID);
+				System.out.println(film);
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+			boolean deleted = filmDao.deleteFilm(film);
 			
-			// Handle Film Delete
-			
+			if (deleted) {
+				mv.addObject("film", film);			
+				mv.setViewName("WEB-INF/deleted.jsp");		
+			} else {
+				film = null;
+				mv.addObject("film", film);			
+				mv.setViewName("WEB-INF/deleted.jsp");	
+			}
+ 
+// -----------------
+
 		}
 		return mv;
 	}
@@ -127,5 +144,5 @@ public class FilmController {
 		mv.setViewName("WEB-INF/home.jsp");
 		return mv;
 	}
-
+	
 }

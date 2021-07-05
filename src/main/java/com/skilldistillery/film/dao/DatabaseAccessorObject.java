@@ -332,14 +332,16 @@ public class DatabaseAccessorObject implements DatabaseAccessor {
 	@Override
 	public boolean deleteFilm(Film film) {
 		Connection conn = null;
+		int filmId = film.getId(); 
 		try {
 			conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/sdvid?useSSL=false&useLegacyDatetimeCode=false&serverTimezone=US/Mountain", "student", "student");
 			conn.setAutoCommit(false); // START TRANSACTION
 			String sql = "DELETE FROM film WHERE id = ?";
 			PreparedStatement stmt = conn.prepareStatement(sql);
-			stmt.setInt(1, film.getId());
+			stmt.setInt(1, filmId);
 			int updateCount = stmt.executeUpdate();
 			conn.commit(); // COMMIT TRANSACTION
+			
 		} catch (SQLException sqle) {
 			sqle.printStackTrace();
 			if (conn != null) {
@@ -349,8 +351,25 @@ public class DatabaseAccessorObject implements DatabaseAccessor {
 					System.err.println("Error trying to rollback");
 				}
 			}
+		}
+		try {
+			conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/sdvid?useSSL=false&useLegacyDatetimeCode=false&serverTimezone=US/Mountain", "student", "student");
+			conn.setAutoCommit(false); // START TRANSACTION
+		String sql = "SELECT * FROM film WHERE film.id = ?";
+		PreparedStatement st = conn.prepareStatement(sql);
+		st.setInt(1, filmId);
+		ResultSet rs = st.executeQuery();
+		if (rs.next()) {
 			return false;
 		}
+		rs.close();
+		conn.commit();
+		st.close();
+		conn.close();
+	} catch (SQLException e) {
+		e.printStackTrace();
+		return false;
+	}
 		return true;
 	}
 
