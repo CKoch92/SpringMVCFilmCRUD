@@ -114,38 +114,27 @@ public class FilmController {
 		mv.setViewName("WEB-INF/updateFilm.jsp");
 		}
 		else if (action.equals("Delete") ) {
-//			try {
-//			filmDao.deleteFilm(filmDao.findFilmById(filmID));
-//			} catch (SQLException e) {
-//				e.printStackTrace();
-//			}
-////			mv.addObject("film", film);
-//			mv.setViewName("WEB-INF/deleted.jsp");
-//			// Handle Film Delete
 // -----------------
-			try {									
+			try {
 				film = filmDao.findFilmById(filmID);
 				System.out.println(film);
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
 			boolean deleted = filmDao.deleteFilm(film);
-			
+
 			if (deleted) {
-				mv.addObject("film", film);			
-				mv.setViewName("WEB-INF/deleted.jsp");		
+				mv.addObject("film", film);
+				mv.setViewName("WEB-INF/deleted.jsp");
 			} else {
 				film = null;
-				mv.addObject("film", film);			
-				mv.setViewName("WEB-INF/deleted.jsp");	
+				mv.addObject("film", film);
+				mv.setViewName("WEB-INF/deleted.jsp");
 			}
- 
 // -----------------
-
 		}
 		return mv;
 	}
-
 	@RequestMapping(path = "goHome.do", params = {}, method = RequestMethod.GET)
 	public ModelAndView goHome() {
 		ModelAndView mv = new ModelAndView();
