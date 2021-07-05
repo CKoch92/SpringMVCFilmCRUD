@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Add new film</title>
+</head>
+<body>
+  <form action="goHome.do" method="GET">
+    <input type="submit" value="Return Home" />
+  </form> 
+	<h2>Add New Film</h2>
+	<form action="createFilm.do" method="GET">
+		<b>Title</b> <br />
+		<input type="text" name="title" /> <br />
+		<b>Description</b> <br />
+		<input type="text" name="description" /> <br />
+		<b>Release Year</b> <br />
+		<input type="text" name="releaseYear" /> <br />
+		<b>Language</b> 1:English, 2:Italian, 3:Japanese, 4:Mandarin, 5:French <br> 
+		<input type="text" name="language" /> <br />
+		<b>Rental Duration</b> <br />
+		<input type="text" name="rentalDuration" /> <br />
+		<b>Rental Rate</b> <br />
+		<input type="text" name="rentalRate" /> <br />
+		<b>Length</b> <br />
+		<input type="text" name="length" /> <br />
+		<b>Replacement Cost</b> <br />
+		<input type="text" name="replacementCost" /> <br />
+		<b>Rating</b> G, PG, PG13, R, NC-17 <br> 
+		<input type="text" name="rating" /> <br />
+		<b>Special Features</b> Trailers, Commentaries, Deleted Scenes, Behind the Scenes <br> 
+		<input type="text" name="specialFeatures" /> <br /> 
+	    <input type="submit" value="Submit" />
+	</form>
+</body>
+</html>

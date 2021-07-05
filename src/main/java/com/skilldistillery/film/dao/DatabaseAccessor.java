@@ -15,8 +15,15 @@ public interface DatabaseAccessor {
 
 	Film filmAdditionalInfo(int filmId) throws SQLException;
 
-	public List<Film> findFilmByASearchKeyword(String keyword) throws SQLException;
+	public List<Film> findFilmByKeyword(String keyword) throws SQLException;
 	
 	public Film createFilm(Film film) throws SQLException;
+	
+	public Film updateFilm(Film film) throws SQLException;
+
+	List<String> findCategoryByFilmId(int filmId) throws SQLException;
+
+	boolean deleteFilm(Film film);
+
 
 }

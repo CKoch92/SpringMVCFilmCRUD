@@ -13,15 +13,22 @@ public class Film {
 	private String rentalRate;
 	private String length;
 	private String replacementCost;
-	private String category;
+	private List<String> category;
 	private String rating;
+	private String specialFeatures;
 	private List<Actor> actors;
 
-	
+	public Film(int id, String title, String description, String releaseYear,  String rating) {
+		this.id = id;
+		this.title = title;
+		this.description = description;
+		this.releaseYear = releaseYear;
+		this.rating = rating;
+	}
 	
 	
 	public Film(int id, String title, String description, String releaseYear, String language, String rentalDuration,
-			String rentalRate, String length, String replacementCost, String category, String rating,
+			String rentalRate, String length, String replacementCost, List<String> category, String rating,
 			List<Actor> actors) {
 		this.id = id;
 		this.title = title;
@@ -36,8 +43,38 @@ public class Film {
 		this.rating = rating;
 		this.actors = actors;
 	}
+	
+	public Film(int id, String title, String description, String releaseYear, String language, String rentalDuration,
+			String rentalRate, String length, String replacementCost, String rating,String specialFeatures) {
+		this.id = id;
+		this.title = title;
+		this.description = description;
+		this.releaseYear = releaseYear;
+		this.language = language;
+		this.rentalDuration = rentalDuration;
+		this.rentalRate = rentalRate;
+		this.length = length;
+		this.replacementCost = replacementCost;
+		this.rating = rating;
+		this.specialFeatures = specialFeatures;
+	}
+	
+	public Film(String title, String description, String releaseYear, String language, String rentalDuration,
+			String rentalRate, String length, String replacementCost, String rating,String specialFeatures) {
 
-	public Film(String rentalDuration, String rentalRate, String length, String replacementCost, String category) {
+		this.title = title;
+		this.description = description;
+		this.releaseYear = releaseYear;
+		this.language = language;
+		this.rentalDuration = rentalDuration;
+		this.rentalRate = rentalRate;
+		this.length = length;
+		this.replacementCost = replacementCost;
+		this.rating = rating;
+		this.specialFeatures = specialFeatures;
+	}
+
+	public Film(String rentalDuration, String rentalRate, String length, String replacementCost, List<String> category) {
 		this.rentalDuration = rentalDuration;
 		this.rentalRate = rentalRate;
 		this.length = length;
@@ -146,11 +183,11 @@ public class Film {
 		this.replacementCost = replacementCost;
 	}
 
-	public String getCategory() {
+	public List<String> getCategory() {
 		return category;
 	}
 
-	public void setCategory(String category) {
+	public void setCategory(List<String> category) {
 		this.category = category;
 	}
 
@@ -160,6 +197,15 @@ public class Film {
 
 	public void setActors(List<Actor> actors) {
 		this.actors = actors;
+	}
+	
+	public String getSpecialFeatures() {
+		return specialFeatures;
+	}
+
+
+	public void setSpecialFeatures(String specialFeatures) {
+		this.specialFeatures = specialFeatures;
 	}
 
 	@Override
@@ -252,10 +298,16 @@ public class Film {
 		} else if (type.equals("short")) {
 			return ("| ID: " + id + " Title: " + title);
 
-		} else {
+		} else if (type.equals("full")) {
 			return (("| Title: " + title + "\n| Description: \n" + description.replaceAll("(?m)^", "| ")
 					+ "\n| Release Year: " + releaseYear + "\n| Rating: " + rating + "\n| Language: " + language
 					+ "\n| Actors:" + actors.toString().replaceAll("\\[|\\]|,|-", "")));
+		}
+		else {
+			return "Film [id=" + id + ", title=" + title + ", description=" + description + ", releaseYear=" + releaseYear
+					+ ", language=" + language + ", rentalDuration=" + rentalDuration + ", rentalRate=" + rentalRate
+					+ ", length=" + length + ", replacementCost=" + replacementCost + ", rating=" + rating
+					+ ", specialFeatures=" + specialFeatures + "]";
 		}
 
 	}

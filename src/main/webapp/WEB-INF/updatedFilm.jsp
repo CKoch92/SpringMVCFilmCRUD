@@ -12,7 +12,7 @@
   <form action="goHome.do" method="GET">
     <input type="submit" value="Return Home" />
   </form> 
-	<h3>Film Info</h3>
+	<h3>Film Info Updated!</h3>
   <c:choose>
     <c:when test="${! empty film}">  <!-- if object "film" added to mv, from class FilmController, is not empty, print film details  -->
       <ul>
@@ -25,9 +25,8 @@
         <li>Rental Rate: ${film.rentalRate}</li>
         <li>Length: ${film.length}</li>
         <li>Replacement Cost: ${film.replacementCost}</li>
-        <li>Category: ${film.category}</li>
         <li>Rating: ${film.rating}</li>
-        <li>Actors: ${film.actors}</li>
+        <li>Special Features: ${film.specialFeatures}</li>
       </ul>      
     </c:when>
     <c:otherwise>
