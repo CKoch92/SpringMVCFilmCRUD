@@ -12,6 +12,13 @@
   <form action="goHome.do" method="GET">
     <input type="submit" value="Return Home" />
   </form> 
-	<h3>Film Deleted!</h3>
+	<c:choose>
+    <c:when test="${! empty film}">  <!-- if object "film" added to mv, from class FilmController, is not empty, print film details  -->
+<h3>Film Deleted!</h3>
+    </c:when>
+    <c:otherwise>
+    <h3>Film deletion failed due to film data existence in other database tables.(Child records can not be deleted)</h3>
+    </c:otherwise>
+  </c:choose>
 </body>
 </html>

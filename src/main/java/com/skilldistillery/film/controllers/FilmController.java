@@ -114,6 +114,7 @@ public class FilmController {
 		mv.setViewName("WEB-INF/updateFilm.jsp");
 		}
 		else if (action.equals("Delete") ) {
+<<<<<<< HEAD
 			try {
 			filmDao.deleteFilm(filmDao.findFilmById(filmID));
 			} catch (SQLException e) {
@@ -122,6 +123,27 @@ public class FilmController {
 //			mv.addObject("film", film);
 			mv.setViewName("WEB-INF/deleted.jsp");
 			// Handle Film Delete
+=======
+// -----------------
+			try {									
+				film = filmDao.findFilmById(filmID);
+				System.out.println(film);
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+			boolean deleted = filmDao.deleteFilm(film);
+			
+			if (deleted) {
+				mv.addObject("film", film);			
+				mv.setViewName("WEB-INF/deleted.jsp");		
+			} else {
+				film = null;
+				mv.addObject("film", film);			
+				mv.setViewName("WEB-INF/deleted.jsp");	
+			}
+ 
+// -----------------
+>>>>>>> ed8bef9a10c460962a06235d79cbced7ed7600ec
 
 		}
 		return mv;
@@ -133,6 +155,7 @@ public class FilmController {
 		mv.setViewName("WEB-INF/home.jsp");
 		return mv;
 	}
+<<<<<<< HEAD
 
 	@RequestMapping(path = "DeleteFilm.do", params = "id", method = RequestMethod.GET)
 	public ModelAndView deleteFilm(String id) {
@@ -156,4 +179,7 @@ public class FilmController {
 	  mv.setViewName("WEB-INF/deleteFilm.jsp");
 	  return mv;
 	}
+=======
+	
+>>>>>>> ed8bef9a10c460962a06235d79cbced7ed7600ec
 }
