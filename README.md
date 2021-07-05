@@ -34,5 +34,5 @@ To host your own instance, you are going to need a similar webserver that implem
 ## Lessons Learned
 Java web applications consist of multiple systems communicating with each other, manipulating the data and forwarding it to other services or pages. The MVC design pattern is a very good framework for developing scalable web applications.
 
-## UML Diagram
-![ERDiagram](https://user-images.githubusercontent.com/83374176/123504132-bc31c380-d614-11eb-8844-aebbae35b5b1.png)
+## EER Diagram
+![EERDiagram](https://user-images.githubusercontent.com/83374176/123504132-bc31c380-d614-11eb-8844-aebbae35b5b1.png)
